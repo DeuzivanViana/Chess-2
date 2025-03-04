@@ -1,15 +1,17 @@
 #include <iostream>
 #include <raylib.h>
 
+#define TABLE_SLOT_SIZE 48.f
+
 class Table
 {
 public:
 	Table() noexcept
-		: __slot_size {48.f}
+		: __slot_size {TABLE_SLOT_SIZE}
 	{
 	}
 
-	virtual void draw() const noexcept
+	virtual void draw(Camera2D camera) const noexcept
 	{
 		for(int y = 0; y < 8; y++)
 		{
@@ -39,13 +41,18 @@ int main(int, char*[])
 	InitWindow(480, 720, "Chess 2");
 
 	Table table;
+	Camera2D camera = {0};
+
+	camera.offset = {0.f, 0.f};
+	camera.target = {TABLE_SLOT_SIZE * 8.f, 0.f};
+	camera.zoom = 1.f;
 
 	while(!WindowShouldClose())
 	{
 		BeginDrawing();
 		ClearBackground(BLACK);
 
-		table.draw();
+		table.draw(camera);
 
 		EndDrawing();
 	}
